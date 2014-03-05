@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="by.academy.entity" schema="WCH3">
+    <class name="Order">
+        <id name="id" type="int">
+            <generator class="native">
+                <param name="sequence">SEQ_ORDER</param>
+            </generator>
+        </id>
+        <many-to-one name="job" class="Job" column="F_JOB_ID" not-null="true"/>
+        <many-to-one name="worker" class="Worker" column="F_WORKER_ID" not-null="true"/>
+        <many-to-one name="address" class="Address" column="F_ADDRESS_ID" not-null="true"/>
+
+        <property name="startTime" type="java.util.Date"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+    <context:annotation-config/>
+    <context:component-scan base-package="by.academy.*"/>
+
+
+    <bean id="userService" class="by.academy.service.UserService">
+        <property name="baseDao" ref="userDao"/>
+        <property name="roleService" ref="roleService"/>
+    </bean>
+    <bean id="roleService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="roleDao"/>
+    </bean>
+    <bean id="skillService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="skillDao"/>
+    </bean>
+    <bean id="jobTypeService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="jobTypeDao"/>
+    </bean>
+    <bean id="jobService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="jobDao"/>
+    </bean>
+    <bean id="addressService" class="by.academy.service.AddressService">
+        <property name="baseDao" ref="addressDao"/>
+    </bean>
+    <bean id="workerService" class="by.academy.service.WorkerService">
+        <property name="baseDao" ref="workerDao"/>
+        <property name="skillService" ref="skillService"/>
+        <property name="jobTypeService" ref="jobTypeService"/>
+    </bean>
+    <bean id="orderService" class="by.academy.service.OrderService">
+        <property name="baseDao" ref="orderDao"/>
+        <property name="addressService" ref="addressService"/>
+        <property name="jobService" ref="jobService"/>
+        <property name="workerService" ref="workerService"/>
+        <property name="userService" ref="userService"/>
+
+    </bean>
+
+    <!--
+    <bean id="orderService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="orderDao"/>
+    </bean>
+    <bean id="jobService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="jobDao"/>
+    </bean>
+    <bean id="workerService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="workerDao"/>
+    </bean>
+    <bean id="addressService" class="by.academy.service.ServiceImpl">
+        <property name="baseDao" ref="addressDao"/>
+    </bean>
+       -->
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>
+
+<!--
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+    <aop:config>
+        <aop:advisor pointcut="execution(* by.academy.service.ServiceImpl.*(..))" advice-ref="txAdvice"/>
+    </aop:config>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+            <tx:method name="get" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+-->
+
+</beans>

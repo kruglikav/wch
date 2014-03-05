@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="by.academy.entity" schema="WCH3" auto-import="true">
+    <class name="User" lazy="false">
+        <id name="id" type="int" >
+            <generator class="native">
+                <param name="sequence">SEQ_USER</param>
+            </generator>
+        </id>
+        <property name="name" type="string"/>
+        <property name="password" type="string"/>
+        <many-to-one name="role" class="Role" column="F_ROLE_ID" not-null="true" lazy="false" />
+        <set name="addresses" table="T_ADDRESS" inverse="true" lazy="false">
+            <key column="F_USER_ID" not-null="true"/>
+            <one-to-many class="Address"/>
+        </set>
+    </class>
+</hibernate-mapping>
