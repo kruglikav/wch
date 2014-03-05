@@ -7,6 +7,7 @@
   В модуле Бек-энда использовал Hibernate+Spring, бизнес-модуль - Spring, веб-модуль - Spring MVC+
 Spring-security+Tiles+Bootstrap.
 
+
   Данные хранятся в БД Oracle XE 11g (в проекте в папке sql лежит dump базы и скрипты для экспорта/импорта) 
 
   Реализованный функционал:
